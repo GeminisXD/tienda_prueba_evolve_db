@@ -1,20 +1,14 @@
 from sqlalchemy import create_engine
-from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import declarative_base, sessionmaker
 
-# URL de conexión usando tus credenciales exactas
-SQLALCHEMY_DATABASE_URL = "postgresql+psycopg2://tiendadb:tiendadb@localhost:5432/tiendadb"
+from app.core.config import DATABASE_URL
 
-# Motor de SQLAlchemy para PostgreSQL
-engine = create_engine(SQLALCHEMY_DATABASE_URL)
+engine = create_engine(DATABASE_URL)
 
-# Sesión para interactuar con la base de datos
 SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
-# Base para los modelos (MVC)
 Base = declarative_base()
 
-# Dependencia para obtener la sesión de BD en cada petición
 def get_db():
     db = SessionLocal()
     try:
